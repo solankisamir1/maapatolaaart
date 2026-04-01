@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MAA Patola Art</title>
+    <link rel="stylesheet" href="patola.css">
+    
+    <style>
+        /* =========================================
+           MST ANIMATIONS (Jaadoo Yahan Hai)
+           ========================================= */
+        
+        /* Niche se upar aane ka animation */
+        @keyframes fadeUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Animation class jo hum har dabbe par lagayenge */
+        .animated-box {
+            opacity: 0; /* Pehle chhupa rahega */
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        /* Alag-alag time par aane ke liye (1 ke baad 1 aayega) */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.5s; }
+        .delay-3 { animation-delay: 0.8s; }
+
+        /* =========================================
+           ABOUT US PAGE DESIGN
+           ========================================= */
+        .about-section {
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .about-hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-hero h1 {
+            font-size: 36px;
+            color: #b8860b; /* Golden Color */
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .about-hero p {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 50px;
+            flex-wrap: wrap; /* Phone par theek dikhane ke liye */
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05); /* Photo par mouse laane par zoom hoga */
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            background: #faf9f6;
+            padding: 40px 20px;
+            border-radius: 12px;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-box h3 {
+            font-size: 32px;
+            color: #b8860b;
+            margin-bottom: 5px;
+        }
+
+        .stat-box p {
+            color: #333;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="height: 50px;">
+            MAA Patola Art
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="sarees.html">SAREES</a></li>
+                <li><a href="clutches.html">ACCESSORIES</a></li>
+                <li><a href="about.html" style="color: #b8860b;">ABOUT US</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html" class="cart-icon" style="text-decoration: none; color: #333;">
+            🛒 Cart (<span id="cart-count">0</span>)
+        </a>
+    </header>
+
+    <main class="main-content">
+        <section class="about-section">
+            
+            <div class="about-hero animated-box delay-1">
+                <h1>OUR HERITAGE</h1>
+                <p>Welcome to MAA Patola Art, where tradition meets elegance. Hum saalo se pure aur authentic Patola sarees banate aa rahe hain.</p>
+            </div>
+
+            <div class="about-content animated-box delay-2">
+                <div class="about-image">
+                    <img src="Rajkoti/Rajkotimain.jpeg" alt="Making of Patola">
+                </div>
+                <div class="about-text">
+                    <h2>The Art of Weaving</h2>
+                    <p>Patola sirf ek saree nahi, balki ek viraasat (heritage) hai. Ek asli Double Ikkat Patola banne mein mahino ki mehnat lagti hai. Hamare karigar har dhaage ko badi baarik se rangte hain aur bunte hain.</p>
+                    <p>MAA Patola Art mein hamara maqsad (aim) hai ki hum is prachin kala (ancient art) ko zinda rakhein aur aap tak sabse premium quality pahunchayein. Hamari har saree 100% pure silk aur original designs ke sath aati hai.</p>
+                </div>
+            </div>
+
+            <div class="stats-container animated-box delay-3">
+                <div class="stat-box">
+                    <h3>15+</h3>
+                    <p>YEARS OF TRUST</p>
+                </div>
+                <div class="stat-box">
+                    <h3>100%</h3>
+                    <p>PURE SILK</p>
+                </div>
+                <div class="stat-box">
+                    <h3>500+</h3>
+                    <p>HAPPY CUSTOMERS</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-social">
+            <h4>CONNECT WITH US</h4>
+            <div class="social-links">
+                <a href="https://wa.me/919033217894" target="_blank" class="social-icon">
+                    <img src="other\Wa.png" alt="WhatsApp">
+                </a>
+                <a href="https://www.instagram.com/maa_patola_art_?igsh=MW9xdHdrZGg4OHQ0Nw==" target="_blank" class="social-icon">
+                    <img src="other\instagram-logo-94.png" alt="Instagram">
+                <a href="https://www.facebook.com/share/1DNHEdmxBP/" target="_blank" class="social-icon">
+                    <img src="other\facebook.png" alt="Instagram">
+                </a>
+                </a>
+            </div>
+        </div>
+        <p class="copyright-text">&copy; 2026 MAA Patola Art. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('patolaCart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+        updateCartCount(); 
+    </script>
+
+    <script>
+        // 1. Page load hote hi apne aap Cart ka number theek karega
+        window.onload = function() {
+            let cart = JSON.parse(localStorage.getItem('patolaCart')) || [];
+            let cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.innerText = cart.length; // Memory se length nikal kar HTML me dalega
+            }
+        };
+
+        // 2. Add to Cart ka function
+        function addToCart(itemName, itemPrice, itemImage) {
+            let cart = JSON.parse(localStorage.getItem('patolaCart')) || [];
+            
+            let newItem = {
+                name: itemName,
+                price: itemPrice,
+                image: itemImage
+            };
+            
+            cart.push(newItem);
+            localStorage.setItem('patolaCart', JSON.stringify(cart));
+            
+            // Turant number update karo
+            let cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.innerText = cart.length;
+            }
+            
+            alert(itemName + " aapke cart mein add ho gayi hai! 🛒");
+        }
+    </script>
+
+</body>
+</html>

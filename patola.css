@@ -1,0 +1,465 @@
+/* General Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Georgia', serif; /* A classic font for premium feel */
+}
+
+body {
+    background-color: #faf9f6; /* Off-white background */
+    color: #333;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #b8860b; /* Dark golden rod for hover effect */
+}
+
+/* Hero Section */
+.hero {
+    height: 80vh;
+    background-color: #e0d8c3; /* Placeholder for a background image */
+    /* To add a real image, use: background-image: url('your-image.jpg'); background-size: cover; background-position: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #2c2c2c;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.btn {
+    padding: 15px 30px;
+    background-color: #2c2c2c;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #b8860b;
+}
+
+/* Featured Products Section */
+.featured-products {
+    padding: 60px 50px;
+    text-align: center;
+}
+
+.featured-products h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background-color: #fff;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #b8860b;
+    margin-bottom: 15px;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid #2c2c2c;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #2c2c2c;
+    color: #fff;
+}
+
+/* Shop by Collections Styling */
+.collections-container {
+    text-align: center;
+    margin: 40px 0; /* Upar aur niche ki spacing */
+}
+
+.collections-header {
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.collection-circles {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Dono circles ke beech ka gap */
+}
+
+.collection-item {
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+    transform: translateY(-5px); /* Hover karne par thoda upar aayega */
+}
+
+.circle-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%; /* Image ko gol (circle) banane ke liye */
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid #eaeaea; /* Halki si border */
+}
+
+.circle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image ko circle mein properly fit karne ke liye */
+}
+
+.collection-item h3 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #333;
+}
+
+/* Hero Content ko Center karne ke liye */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* Collections Container ki Spacing */
+.collections-container {
+    text-align: center;
+    margin-bottom: 30px; /* Circles aur H1 heading ke beech ka gap */
+}
+
+.collections-header {
+    font-size: 24px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.collection-circles {
+    display: flex;
+    justify-content: center;
+    gap: 40px; 
+}
+
+.collection-item {
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Circles ko thoda chota kiya taaki text ke upar acche lagein */
+.circle-image {
+    width: 140px; 
+    height: 140px;
+    border-radius: 50%; 
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 2px solid #eaeaea; 
+}
+
+.circle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.collection-item h3 {
+    font-size: 16px;
+    font-weight: normal;
+    color: #555;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #2c2c2c;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* =========================================
+   FOOTER SECTION DESIGN
+   ========================================= */
+.site-footer {
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;      /* Pura text aur items center mein karega */
+    padding: 40px 20px 20px;
+    margin-top: 50px;
+    border-top: 1px solid #ddd;
+}
+
+.footer-social h4 {
+    margin-bottom: 20px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+/* Logos ko center aur line mein set karne ke liye */
+.social-links {
+    display: flex;
+    justify-content: center; /* Logos ekdum center mein */
+    align-items: center;
+    gap: 25px;               /* Dono logos ke beech 25px ki jagah */
+    margin-bottom: 25px;
+}
+
+/* Logos ki size aur hover effect */
+.social-icon img {
+    width: 35px;             /* Width aur Height barabar rakhi hai */
+    height: 35px;
+    object-fit: contain;     /* Logo katega nahi */
+    transition: transform 0.3s ease; /* Jadoo wala effect */
+}
+
+/* Mouse aane par logo thoda sa bada hoga */
+.social-icon img:hover {
+    transform: scale(1.2);
+}
+
+.copyright-text {
+    color: #666;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Phone par mast dikhane ke liye)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Header/Menu ko phone ke hisaab se set karna */
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Sarees ki list phone par ek ke niche ek aayegi (1 line mein 1) */
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 column instead of 3 */
+        gap: 20px;
+    }
+
+    /* Categories wale boxes bhi phone par seedhe aayenge */
+    .category-showcase {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Cart page ko phone par set karna */
+    .cart-container {
+        flex-direction: column;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .item-details {
+        margin-left: 0;
+    }
+}
+
+/* =========================================
+   STICKY HEADER (Menu hamesha upar rahega)
+   ========================================= */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Baki sab cheezon ke upar rahega */
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Halka sa shadow */
+}
+
+/* =========================================
+   CATEGORY SHOWCASE FIX (Perfect Layout)
+   ========================================= */
+.category-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.showcase-card {
+    width: 230px; /* Card ki fix choudai */
+    text-align: center;
+}
+
+.image-frame {
+    width: 100%;
+    margin-bottom: 15px; /* Photo aur button ke beech ki jagah */
+}
+
+/* Photo ka design - sab barabar rahengi */
+.image-frame img {
+    width: 100%;
+    height: 300px; /* Har photo ki height ekdam same hogi */
+    object-fit: cover; /* Photo perfect fit hogi, pichkegi nahi */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #f4f4f4; /* Agar photo nahi hai toh halka grey background aayega */
+}
+
+/* Mouse aane par photo thodi zoom hogi */
+.image-frame img:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+}
+
+/* Buttons ka design */
+.showcase-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.showcase-btn:hover {
+    background-color: #b8860b;
+}
+
+/* =========================================
+   COOL SCROLL ANIMATION (Makkhan jaisa smooth)
+   ========================================= */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(60px); /* 60px niche se shuru hoga */
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Premium speed control */
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0); /* Apni asli jagah par aayega */
+}
+
+/* =========================================
+   DISCOUNT PRICE DESIGN (Kate hue price ke liye)
+   ========================================= */
+.price-box {
+    margin: 10px 0 15px 0;
+}
+
+.old-price {
+    text-decoration: line-through; /* Isse line khinch jayegi */
+    color: #999; /* Halka grey color */
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.new-price {
+    color: #d32f2f; /* Mast Red/Golden color customer ko attract karne ke liye */
+    font-size: 18px;
+    font-weight: bold;
+}
