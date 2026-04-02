@@ -464,56 +464,64 @@ footer {
     font-weight: bold;
 }
 
-/* --- MOBILE RESPONSIVE FIX (AUTO-ADJUST SIZE) --- */
+/* --- MOBILE FIX: EXACT LAPTOP REPLICA (SCALED DOWN) --- */
 @media screen and (max-width: 768px) {
   
-  /* 1. Screen ko permanently lock karna (White space khatam) */
-  html, body {
+  /* 1. Body ko lock karna taaki horizontal scroll (cut) na ho */
+  body, html {
     overflow-x: hidden !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
   }
 
-  /* 2. Menu ko center mein rakhna */
-  nav ul, .nav-links, .menu { 
+  /* 2. Menu ko line me lana */
+  .nav-links, .menu, nav ul {
     display: flex !important;
-    flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 15px !important;
+    flex-wrap: wrap !important;
     padding: 10px 0 !important;
+    gap: 15px !important;
   }
 
-  /* 3. Collections ko automatic size par set karna */
+  /* 3. Collections ko Center aur Aadi Line (Horizontal) me rakhna */
+  .collections, .collections-container {
+    text-align: center !important;
+  }
+
   .collections-container {
     display: flex !important;
-    flex-direction: row !important; /* Ek hi line mein rakhega */
-    justify-content: space-around !important; /* Barabar jagah dega */
-    align-items: center !important;
+    flex-direction: row !important; /* Laptop jaisi ek sidhi line */
+    justify-content: center !important; /* Ekdum Center me */
+    align-items: flex-start !important;
     width: 100% !important;
+    gap: 15px !important; /* Photos ke beech ka gap */
     padding: 0 10px !important;
     box-sizing: border-box !important;
-    gap: 5px !important;
   }
 
-  /* 4. Photos apna size phone ke hisaab se ghata lengi */
-  .collections-container div {
-    flex: 1 !important; /* Teeno dabbon ko barabar jagah dega */
+  /* 4. Teeno Items ko barabar jagah aur center alignment */
+  .collections-container > div {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    flex: 1 !important;
   }
 
+  /* 5. Photos ko chota aur gol (round) rakhna taaki fit aa jayein */
   .collections-container img {
-    width: 100% !important; /* Dabba jitna bada, photo utni badi */
-    max-width: 90px !important; /* Photo 90px se badi nahi hogi mobile par */
-    height: auto !important;
-    border-radius: 50% !important; /* Gol (round) rakhne ke liye */
+    width: 80px !important; /* Mobile ke liye perfect size */
+    height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
   }
 
-  /* 5. Text size ko bhi thoda adjust karna */
+  /* Text ko photo ke hisaab se adjust karna */
   .collections-container p, .collections-container span {
-    font-size: 13px !important;
-    margin-top: 5px !important;
+    font-size: 12px !important;
+    margin-top: 8px !important;
+    text-align: center !important;
+  }
+
+  /* 6. Overlap Fix: Button ke niche gap banana */
+  .collections {
+    padding-bottom: 50px !important; /* Button aur New Arrivals ke beech ki jagah */
   }
 }
