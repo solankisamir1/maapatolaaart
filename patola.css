@@ -464,44 +464,48 @@ footer {
     font-weight: bold;
 }
 
-/* --- MOBILE RESPONSIVE FIX (CORRECTED) --- */
+/* --- MOBILE RESPONSIVE FIX (CENTERED & FULL SIZE) --- */
 @media screen and (max-width: 768px) {
   
-  /* 1. Screen ko bahar jane se rokna (White space fix) */
-  body, html {
-    overflow-x: hidden !important;
-    width: 100vw !important;
-  }
-
-  /* 2. Menu ko theek se center mein set karna (Bina layout tode) */
+  /* 1. Menu ko center mein lana */
   nav ul, .nav-links, .menu { 
     display: flex !important;
-    flex-wrap: wrap !important; /* Jagah kam ho toh automatically niche set ho jaye */
+    flex-wrap: wrap !important;
     justify-content: center !important;
     gap: 15px !important;
     padding: 10px 0 !important;
   }
 
-  /* 3. Sirf Photos wale dabbe ko scrollable banana (Heading ko nahi) */
-  .collections-container, .product-grid {
+  /* 2. Collections ko center karna (Bina kisi cut ke) */
+  .collections, .collections-container {
     display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    justify-content: flex-start !important;
-    padding-bottom: 15px !important;
-    gap: 15px !important;
+    flex-direction: column !important; /* Ek ke niche ek layega */
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
     width: 100% !important;
   }
   
-  /* 4. Photos ka size mobile ke hisaab se theek karna taaki screen par fit aayein */
-  .collections-container img, .product-grid img {
-    max-width: 120px !important; /* Photo zyada badi na ho */
-    height: auto !important;
+  /* Collections ki heading center mein lane ke liye */
+  .collections h2, .collections-title {
+     text-align: center !important;
+     width: 100% !important;
+     margin-bottom: 10px !important;
   }
 
-  /* Scrollbar hide karna */
-  .collections-container::-webkit-scrollbar, .product-grid::-webkit-scrollbar {
-    display: none;
+  /* 3. Products ko bada aur saaf dikhane ke liye */
+  .product-grid {
+    display: flex !important;
+    flex-direction: column !important; /* Ek line me ek hi product taaki bada dikhe */
+    align-items: center !important;
+    gap: 30px !important;
+    width: 100% !important;
+  }
+
+  /* Product ka dabba screen par poora bada dikhega */
+  .product-card, .product {
+    width: 90% !important; 
+    max-width: 350px !important;
+    margin: 0 auto !important;
   }
 }
