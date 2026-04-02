@@ -463,3 +463,28 @@ footer {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* --- MOBILE RESPONSIVE FIX --- */
+@media screen and (max-width: 768px) {
+  /* Menu ko ek ke niche ek laane ke liye */
+  nav, .nav-links, .menu, ul { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Links ke beech mein jagah */
+    padding: 0;
+  }
+
+  /* Font size thoda adjust karne ke liye */
+  nav a, .nav-links a {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+
+  /* Collection wali photos ko mobile par theek karne ke liye */
+  .collections-container, .product-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
