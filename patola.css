@@ -464,10 +464,18 @@ footer {
     font-weight: bold;
 }
 
-/* --- MOBILE RESPONSIVE FIX (CENTERED & FULL SIZE) --- */
+/* --- MOBILE RESPONSIVE FIX (AUTO-ADJUST SIZE) --- */
 @media screen and (max-width: 768px) {
   
-  /* 1. Menu ko center mein lana */
+  /* 1. Screen ko permanently lock karna (White space khatam) */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 2. Menu ko center mein rakhna */
   nav ul, .nav-links, .menu { 
     display: flex !important;
     flex-wrap: wrap !important;
@@ -476,36 +484,36 @@ footer {
     padding: 10px 0 !important;
   }
 
-  /* 2. Collections ko center karna (Bina kisi cut ke) */
-  .collections, .collections-container {
+  /* 3. Collections ko automatic size par set karna */
+  .collections-container {
     display: flex !important;
-    flex-direction: column !important; /* Ek ke niche ek layega */
+    flex-direction: row !important; /* Ek hi line mein rakhega */
+    justify-content: space-around !important; /* Barabar jagah dega */
     align-items: center !important;
-    text-align: center !important;
-    gap: 20px !important;
     width: 100% !important;
-  }
-  
-  /* Collections ki heading center mein lane ke liye */
-  .collections h2, .collections-title {
-     text-align: center !important;
-     width: 100% !important;
-     margin-bottom: 10px !important;
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
+    gap: 5px !important;
   }
 
-  /* 3. Products ko bada aur saaf dikhane ke liye */
-  .product-grid {
+  /* 4. Photos apna size phone ke hisaab se ghata lengi */
+  .collections-container div {
+    flex: 1 !important; /* Teeno dabbon ko barabar jagah dega */
     display: flex !important;
-    flex-direction: column !important; /* Ek line me ek hi product taaki bada dikhe */
+    flex-direction: column !important;
     align-items: center !important;
-    gap: 30px !important;
-    width: 100% !important;
   }
 
-  /* Product ka dabba screen par poora bada dikhega */
-  .product-card, .product {
-    width: 90% !important; 
-    max-width: 350px !important;
-    margin: 0 auto !important;
+  .collections-container img {
+    width: 100% !important; /* Dabba jitna bada, photo utni badi */
+    max-width: 90px !important; /* Photo 90px se badi nahi hogi mobile par */
+    height: auto !important;
+    border-radius: 50% !important; /* Gol (round) rakhne ke liye */
+  }
+
+  /* 5. Text size ko bhi thoda adjust karna */
+  .collections-container p, .collections-container span {
+    font-size: 13px !important;
+    margin-top: 5px !important;
   }
 }
