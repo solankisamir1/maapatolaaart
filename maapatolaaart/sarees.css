@@ -1,0 +1,140 @@
+/* =========================================
+   SAREES PAGE SPECIAL DESIGN
+   ========================================= */
+
+/* Main content area ki spacing */
+.main-content {
+    padding: 50px 20px;
+    background-color: #faf9f6;
+}
+
+/* Page ki Main Heading (OUR SAREE COLLECTION) */
+.featured-products h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+    font-weight: normal;
+}
+
+/* Products ko ek aadi line me set karne ke liye (Grid) */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap; /* Agar screen choti ho to items niche aa jayenge */
+    justify-content: center;
+    gap: 40px;
+}
+
+/* Har ek Saree ka Box (Card) */
+.product-card {
+    background-color: #fff;
+    width: 320px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Halki si shadow premium look ke liye */
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+/* Mouse upar le jane par box thoda upar aayega */
+.product-card:hover {
+    transform: translateY(-8px);
+}
+
+/* Saree ki Image ka size fix karna */
+.product-card img {
+    width: 100%;
+    height: 380px; 
+    object-fit: cover; /* Image kategi nahi, perfect fit hogi */
+    margin-bottom: 15px;
+}
+
+/* Saree ka Naam */
+.product-card h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+/* Price Tag */
+.product-card .price {
+    font-size: 22px;
+    color: #b8860b; /* Golden color */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Add to Cart Button */
+.add-to-cart {
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid #333;
+    color: #333;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* =========================================
+   PREMIUM CATEGORY SHOWCASE (PHOTO BUTTONS)
+   ========================================= */
+.category-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 60px;
+    flex-wrap: wrap; /* Mobile view ke liye */
+}
+
+.showcase-card {
+    width: 300px; /* Card ki chaudai */
+    text-align: center;
+}
+
+/* Photo ke aaspas ka Border/Frame */
+.image-frame {
+    padding: 10px;
+    border: 2px solid #b8860b; /* Golden border */
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Mouse aane par frame thoda bada hoga */
+.image-frame:hover {
+    transform: scale(1.03);
+}
+
+.image-frame img {
+    width: 100%;
+    height: 350px; /* Photo ki height */
+    object-fit: cover;
+    display: block;
+}
+
+/* Niche wala button */
+.showcase-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #b8860b; /* Golden border */
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.showcase-btn:hover {
+    background-color: #b8860b;
+    color: #fff;
+}

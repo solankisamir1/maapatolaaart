@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - MAA Patola Art</title>
+    <link rel="stylesheet" href="patola.css">
+    
+    <style>
+        .cart-section { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+        .cart-container { display: flex; gap: 40px; flex-wrap: wrap; }
+        .cart-items { flex: 2; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; margin-bottom: 15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+        .item-details { flex: 1; margin-left: 20px; }
+        .item-details h3 { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #333; }
+        .item-details p { font-size: 14px; color: #b8860b; font-weight: bold; }
+        .item-remove button { background: transparent; border: none; color: #d9534f; cursor: pointer; font-size: 14px; }
+        .item-remove button:hover { color: #c9302c; }
+        
+        .cart-summary { flex: 1; background: #faf9f6; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: fit-content; }
+        .step-title { font-size: 18px; color: #b8860b; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        .summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 16px; }
+        .summary-line.total { font-weight: bold; font-size: 18px; border-top: 1px solid #ddd; padding-top: 15px; }
+        
+        .checkout-btn { width: 100%; padding: 15px; background-color: #333; color: #fff; border: none; font-size: 16px; cursor: pointer; margin-top: 20px; border-radius: 4px; transition: 0.3s;}
+        .checkout-btn:hover { background-color: #b8860b; }
+        
+        .empty-cart-message { text-align: center; padding: 40px; background: #fff; border-radius: 8px; font-size: 18px; color: #666; }
+        .clear-btn { background: #ff4d4d; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-size: 14px;}
+        .clear-btn:hover { background: #cc0000; }
+
+        /* Form Design */
+        .address-form { display: none; margin-top: 20px; text-align: left; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee;}
+        .form-group { margin-bottom: 15px; }
+        .form-row { display: flex; gap: 15px; } 
+        .form-row .form-group { flex: 1; margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: bold;}
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; font-size: 14px;}
+        .form-group input:focus { border-color: #b8860b; outline: none; }
+        
+        /* Bill Design */
+        .bill-box { display: none; margin-top: 20px; background: #fdfbf7; padding: 20px; border: 1px solid #e0d8c3; border-radius: 8px; font-family: monospace; font-size: 15px; line-height: 1.6; color: #333;}
+        .bill-header { text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 15px; border-bottom: 2px dashed #ccc; padding-bottom: 10px;}
+        
+        /* Payment Design */
+        .payment-box { display: none; margin-top: 20px; padding: 15px; background: #fff; border: 2px dashed #007bb6; border-radius: 8px; text-align: center; }
+        .upi-btn { display: block; width: 100%; padding: 15px; background-color: #007bb6; color: #fff; text-align: center; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 4px; margin-top: 15px; box-sizing: border-box; transition: 0.3s; }
+        .upi-btn:hover { background-color: #005f8d; }
+        .qr-code-box { margin-top: 15px; padding: 15px; background: #f0f8ff; border-radius: 8px; }
+        .qr-code-box img { width: 150px; height: 150px; border: 5px solid white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* NAYA: THANK YOU SUCCESS BOX */
+        .success-box { display: none; margin-top: 20px; background: #e8f5e9; padding: 30px; border: 2px solid #4caf50; border-radius: 8px; text-align: center; }
+        .success-icon { font-size: 50px; margin-bottom: 10px; }
+        .success-box h3 { color: #2e7d32; margin-bottom: 10px; font-size: 22px; }
+        .success-box p { color: #555; font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="height: 50px;">
+            MAA Patola Art
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="sarees.html">SAREES</a></li>
+                <li><a href="clutches.html">ACCESSORIES</a></li>
+                <li><a href="about.html">ABOUT US</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html" class="cart-icon" style="text-decoration: none; color: #333;">
+            🛒 Cart (<span id="cart-count">0</span>)
+        </a>
+    </header>
+
+    <main class="main-content">
+        <section class="cart-section">
+            <h1 style="text-align: center; margin-bottom: 20px; font-weight: normal; letter-spacing: 2px;">YOUR SHOPPING CART</h1>
+            
+            <div style="text-align: right;" id="clear-btn-container">
+                <button class="clear-btn" onclick="clearFullCart()">🗑️ Empty Entire Cart</button>
+            </div>
+
+            <div class="cart-container">
+                <div class="cart-items" id="cart-items-container"></div>
+
+                <div class="cart-summary" id="right-panel">
+                    
+                    <div id="initial-summary">
+                        <h3 class="step-title">Order Summary</h3>
+                        <div class="summary-line"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
+                        <div class="summary-line"><span>Shipping</span><span style="color: green;">Free</span></div>
+                        <div class="summary-line total"><strong>Total</strong><strong id="cart-total">₹0</strong></div>
+                        <button class="checkout-btn" id="btn-show-form">Proceed to Checkout</button>
+                    </div>
+
+                    <div class="address-form" id="address-section">
+                        <h3 class="step-title">Step 1: Delivery Details</h3>
+                        <div class="form-group"><label>Full Name</label><input type="text" id="cust-name" placeholder="E.g. Samir Solanki" required></div>
+                        <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="cust-phone" placeholder="10-digit mobile number" required></div>
+                        <div class="form-group"><label>Flat / House No.</label><input type="text" id="cust-house" placeholder="E.g. Flat 101, A-Wing" required></div>
+                        <div class="form-group"><label>Area / Street</label><input type="text" id="cust-street" placeholder="E.g. Main Market Road" required></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>City</label><input type="text" id="cust-city" placeholder="City" required></div>
+                            <div class="form-group"><label>Pincode</label><input type="number" id="cust-pincode" placeholder="6-digit Pincode" required></div>
+                        </div>
+                        <div class="form-group"><label>State</label><input type="text" id="cust-state" placeholder="E.g. Gujarat" required></div>
+                        <button class="checkout-btn" id="btn-generate-bill" style="background-color: #007bb6; margin-top: 10px;">Generate Bill & Pay</button>
+                    </div>
+
+                    <div class="bill-box" id="bill-section">
+                        <div class="bill-header">🧾 MAA PATOLA ART - INVOICE</div>
+                        <div id="bill-content"></div>
+                    </div>
+
+                    <div class="payment-box" id="payment-section">
+                        <h3 class="step-title" style="color: #333; margin-bottom: 5px;">Step 2: Secure Payment</h3>
+                        <a href="#" id="upi-link-btn" class="upi-btn">📱 Pay via GPay / PhonePe</a>
+                        <div class="qr-code-box">
+                            <p style="font-size: 13px; color: #555; margin-bottom: 10px; font-weight: bold;">OR Scan QR Code from Phone:</p>
+                            <img id="dynamic-qr-code" src="" alt="UPI QR Code">
+                        </div>
+                        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Payment hone ke baad Order Confirm karein!</p>
+                        <button class="checkout-btn" id="whatsapp-btn" style="background-color: #25d366; color: white; margin-top: 0;">✅ Confirm Order on WhatsApp</button>
+                    </div>
+
+                    <div class="success-box" id="success-section">
+                        <div class="success-icon">🎉</div>
+                        <h3>Order Submitted Successfully!</h3>
+                        <p>Thank You, <strong id="success-name">Customer</strong>!<br>Aapki order details WhatsApp par bhej di gayi hain. Payment verify hote hi hum aapko update karenge.</p>
+                        <button class="checkout-btn" onclick="window.location.href='sarees.html'" style="background-color: #333;">Continue Shopping</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-social">
+            <h4>CONNECT WITH US</h4>
+            <div class="social-links">
+                <a href="https://wa.me/919033217894" target="_blank" class="social-icon">
+                    <img src="other\Wa.png" alt="WhatsApp">
+                </a>
+                <a href="https://www.instagram.com/maa_patola_art_?igsh=MW9xdHdrZGg4OHQ0Nw==" target="_blank" class="social-icon">
+                    <img src="other\instagram-logo-94.png" alt="Instagram">
+                </a>
+                <a href="https://www.facebook.com/share/1DNHEdmxBP/" target="_blank" class="social-icon">
+                    <img src="other\facebook.png" alt="Instagram">
+                </a>
+            </div>
+        </div>
+        <p class="copyright-text">&copy; 2026 MAA Patola Art. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function cleanNumber(priceString) {
+            if (!priceString) return 0; 
+            const cleaned = priceString.toString().replace(/[^0-9]/g, '');
+            return parseInt(cleaned) || 0; 
+        }
+
+        let globalOrderTextForWhatsapp = "";
+        let globalOrderTextForBill = "";
+        let globalTotalAmount = 0;
+
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('patolaCart')) || [];
+            let cartContainer = document.getElementById('cart-items-container');
+            let subtotalElement = document.getElementById('cart-subtotal');
+            let totalElement = document.getElementById('cart-total');
+            
+            cartContainer.innerHTML = ""; 
+            globalTotalAmount = 0;
+            globalOrderTextForWhatsapp = "";
+            globalOrderTextForBill = "";
+
+            if(cart.length === 0) {
+                cartContainer.innerHTML = "<div class='empty-cart-message'>Aapka cart abhi khali hai. 🛍️</div>";
+                document.getElementById('right-panel').style.display = "none";
+                document.getElementById('clear-btn-container').style.display = "none";
+                document.getElementById('cart-count').innerText = "0";
+                return;
+            }
+
+            document.getElementById('right-panel').style.display = "block";
+            document.getElementById('clear-btn-container').style.display = "block";
+
+            cart.forEach(function(item, index) {
+                let itemName = item.name || "Product";
+                let itemImage = item.image || "apna-logo.jpg";
+                let itemPrice = cleanNumber(item.price);
+
+                globalTotalAmount += itemPrice;
+                globalOrderTextForWhatsapp += (index + 1) + ". " + itemName + " - ₹" + itemPrice.toLocaleString('en-IN') + "%0A";
+                globalOrderTextForBill += `<div>${index + 1}. ${itemName} <span style="float:right;">₹${itemPrice.toLocaleString('en-IN')}</span></div>`;
+
+                let itemHTML = `
+                    <div class="cart-item">
+                        <img src="${itemImage}" alt="Product">
+                        <div class="item-details">
+                            <h3>${itemName}</h3>
+                            <p>₹${itemPrice.toLocaleString('en-IN')}</p>
+                        </div>
+                        <div class="item-remove">
+                            <button onclick="removeItem(${index})">🗑️ Remove</button>
+                        </div>
+                    </div>
+                `;
+                cartContainer.innerHTML += itemHTML;
+            });
+
+            subtotalElement.innerText = "₹" + globalTotalAmount.toLocaleString('en-IN');
+            totalElement.innerText = "₹" + globalTotalAmount.toLocaleString('en-IN');
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        document.getElementById('btn-show-form').onclick = function() {
+            document.getElementById('initial-summary').style.display = "none";
+            document.getElementById('address-section').style.display = "block";
+        };
+
+        document.getElementById('btn-generate-bill').onclick = function() {
+            let name = document.getElementById('cust-name').value;
+            let phone = document.getElementById('cust-phone').value;
+            let house = document.getElementById('cust-house').value;
+            let street = document.getElementById('cust-street').value;
+            let city = document.getElementById('cust-city').value;
+            let pincode = document.getElementById('cust-pincode').value;
+            let state = document.getElementById('cust-state').value;
+
+            if(name === "" || phone === "" || house === "" || street === "" || city === "" || pincode === "" || state === "") {
+                alert("Kripya saari details theek se bharein!");
+                return;
+            }
+
+            let addressForBill = house + ", " + street + "<br>" + city + " - " + pincode + "<br>" + state;
+            let addressForWhatsapp = house + ", " + street + ", " + city + " - " + pincode + ", " + state;
+
+            window.finalCustName = name;
+            window.finalCustPhone = phone;
+            window.finalCustAddress = addressForWhatsapp;
+
+            // Success message mein naam set karna
+            document.getElementById('success-name').innerText = name;
+
+            document.getElementById('address-section').style.display = "none";
+            document.getElementById('bill-section').style.display = "block";
+            document.getElementById('payment-section').style.display = "block";
+
+            let billHTML = `
+                <div style="margin-bottom: 10px;"><strong>Billed To:</strong><br>${name}<br>Ph: ${phone}</div>
+                <div style="margin-bottom: 15px; font-size: 13px; color: #666;"><strong>Delivery At:</strong><br>${addressForBill}</div>
+                <div style="border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; padding: 10px 0; margin-bottom: 10px;">
+                    <strong>ORDER ITEMS:</strong><br><br>
+                    ${globalOrderTextForBill}
+                </div>
+                <h3 style="text-align: right; margin: 0; color: #d32f2f; font-size: 18px;">TOTAL PAYABLE: ₹${globalTotalAmount.toLocaleString('en-IN')}</h3>
+            `;
+            document.getElementById('bill-content').innerHTML = billHTML;
+
+            let myUpiId = "rutviksolanki6915@oksbi"; 
+            let upiString = `upi://pay?pa=${myUpiId}&pn=MAA%20Patola%20Art&am=${globalTotalAmount}&cu=INR&tn=Website%20Order`;
+            
+            document.getElementById('upi-link-btn').href = upiString;
+            document.getElementById('dynamic-qr-code').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiString);
+        };
+
+        // FINAL STEP: WHATSAPP BHEJNA AUR THANK YOU DIKHANA
+        document.getElementById('whatsapp-btn').onclick = function() {
+            let message = "Hello MAA Patola Art! 🌟%0A%0AMaine Website se order place kiya hai. Details niche hain:%0A%0A*🧾 DIGITAL INVOICE:*%0A------------------------%0A*Name:* " + window.finalCustName + "%0A*Phone:* " + window.finalCustPhone + "%0A*Delivery Address:* " + window.finalCustAddress + "%0A------------------------%0A*📦 ITEMS:*%0A" + globalOrderTextForWhatsapp + "------------------------%0A*💵 TOTAL PAID: ₹" + globalTotalAmount.toLocaleString('en-IN') + "*%0A%0AMaine UPI se payment complete kar di hai. Kripya check karke order confirm karein. 🙏";
+            
+            // 1. WhatsApp kholna naye tab mein
+            window.open("https://wa.me/919033217894?text=" + message, '_blank');
+
+            // 2. Screen se Bill aur Payment hatana aur Thank You dikhana
+            document.getElementById('bill-section').style.display = "none";
+            document.getElementById('payment-section').style.display = "none";
+            document.getElementById('clear-btn-container').style.display = "none";
+            document.getElementById('cart-items-container').innerHTML = ""; // Cart items screen se hatana
+            
+            document.getElementById('success-section').style.display = "block"; // Thank You dikhana
+
+            // 3. Memory saaf karna (Taaki agle order ke liye cart khali mile)
+            localStorage.removeItem('patolaCart');
+            document.getElementById('cart-count').innerText = "0";
+        };
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('patolaCart')) || [];
+            cart.splice(index, 1); 
+            localStorage.setItem('patolaCart', JSON.stringify(cart)); 
+            loadCart(); 
+        }
+
+        function clearFullCart() {
+            localStorage.removeItem('patolaCart');
+            loadCart();
+        }
+
+        window.onload = loadCart;
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Website mein jitne bhi Saree aur Category ke card hain, unko dhoondho
+            const cards = document.querySelectorAll('.product-card, .showcase-card');
+
+            // Sabme chhupne wali class daal do
+            cards.forEach(card => card.classList.add('scroll-animate'));
+
+            // Jaise hi customer scroll karke card ke paas pahuche, usko dikha do
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Ek baar aane ke baad wapas na chhhipe
+                    }
+                });
+            }, { threshold: 0.1 }); // 10% card dikhte hi animation shuru hoga
+
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
+
+    
+
+</body>
+</html>
