@@ -464,64 +464,72 @@ footer {
     font-weight: bold;
 }
 
-/* --- MOBILE FIX: EXACT LAPTOP REPLICA (SCALED DOWN) --- */
+/* --- MOBILE FIX FOR MAA PATOLA ART --- */
 @media screen and (max-width: 768px) {
-  
-  /* 1. Body ko lock karna taaki horizontal scroll (cut) na ho */
-  body, html {
-    overflow-x: hidden !important;
-  }
+    
+    /* 1. Header aur page ko tight karna */
+    .collections-container {
+        width: 100% !important;
+        padding: 20px 0 !important;
+        text-align: center !important;
+    }
 
-  /* 2. Menu ko line me lana */
-  .nav-links, .menu, nav ul {
+    /* 2. Teeno circles ko ek sidhi line (O O O) mein lane ka asli code */
+    .collection-circles {
+        display: flex !important;
+        flex-direction: row !important; /* Force Aadi Line */
+        justify-content: center !important; /* Ekdum center mein */
+        align-items: flex-start !important;
+        gap: 10px !important; /* Beech ka gap */
+        width: 100% !important;
+        padding: 0 5px !important;
+    }
+
+    /* 3. Har ek item (Saree, Dupatta, Accessories) */
+    .collection-item {
+        flex: 1 !important; /* Teeno ko barabar jagah */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        max-width: 30% !important;
+    }
+
+    /* 4. Rounds ki size (Chota taaki 3 ek sath fit aayein) */
+    .circle-image img {
+        width: 80px !important; /* Mobile ke liye perfect size */
+        height: 80px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        margin: 0 auto !important;
+    }
+
+    /* 1. Bahar wale safed/light circle (dabbe) ko chota karna */
+.circle-image {
+    width: 85px !important;   /* Photo se thoda sa bada bas */
+    height: 85px !important;
+    min-width: 85px !important;
+    min-height: 85px !important;
+    border-radius: 50% !important;
     display: flex !important;
     justify-content: center !important;
-    flex-wrap: wrap !important;
-    padding: 10px 0 !important;
-    gap: 15px !important;
-  }
-
-  /* 3. Collections ko Center aur Aadi Line (Horizontal) me rakhna */
-  .collections, .collections-container {
-    text-align: center !important;
-  }
-
-  .collections-container {
-    display: flex !important;
-    flex-direction: row !important; /* Laptop jaisi ek sidhi line */
-    justify-content: center !important; /* Ekdum Center me */
-    align-items: flex-start !important;
-    width: 100% !important;
-    gap: 15px !important; /* Photos ke beech ka gap */
-    padding: 0 10px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 4. Teeno Items ko barabar jagah aur center alignment */
-  .collections-container > div {
-    display: flex !important;
-    flex-direction: column !important;
     align-items: center !important;
-    flex: 1 !important;
-  }
+    margin: 0 auto !important;
+    /* Agar peeche koi shadow ya border hai toh wo yahan automatic fit ho jayegi */
+}
 
-  /* 5. Photos ko chota aur gol (round) rakhna taaki fit aa jayein */
-  .collections-container img {
-    width: 80px !important; /* Mobile ke liye perfect size */
-    height: 80px !important;
-    object-fit: cover !important;
+/* 2. Photo ko us dabbe ke andar 100% fit karna */
+.circle-image img {
+    width: 100% !important; 
+    height: 100% !important;
     border-radius: 50% !important;
-  }
+    object-fit: cover !important;
+}
 
-  /* Text ko photo ke hisaab se adjust karna */
-  .collections-container p, .collections-container span {
-    font-size: 12px !important;
-    margin-top: 8px !important;
-    text-align: center !important;
-  }
-
-  /* 6. Overlap Fix: Button ke niche gap banana */
-  .collections {
-    padding-bottom: 50px !important; /* Button aur New Arrivals ke beech ki jagah */
-  }
+    /* 5. Text (H3) ko chota aur center karna */
+    .collection-item h3 {
+        font-size: 11px !important;
+        margin-top: 8px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
 }
