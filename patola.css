@@ -464,27 +464,36 @@ footer {
     font-weight: bold;
 }
 
-/* --- MOBILE RESPONSIVE FIX --- */
+/* --- MOBILE RESPONSIVE FIX (SWIPE MENU & COLLECTIONS) --- */
 @media screen and (max-width: 768px) {
-  /* Menu ko ek ke niche ek laane ke liye */
-  nav, .nav-links, .menu, ul { 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px; /* Links ke beech mein jagah */
-    padding: 0;
+  
+  /* 1. Menu ko ek line me rakhna aur Swipe (Scroll) on karna */
+  nav, ul, .nav-links { 
+    display: flex !important;
+    flex-direction: row !important; /* Ek line me layega */
+    flex-wrap: nowrap !important; /* Niche aane se rokega */
+    overflow-x: auto !important; /* Left-Right swipe chalu karega */
+    white-space: nowrap !important; 
+    padding: 10px 5px !important;
+    gap: 20px !important;
+  }
+  
+  /* Menu ke niche ki scroll-line (scrollbar) ko gayab karna taaki clean dikhe */
+  nav::-webkit-scrollbar, ul::-webkit-scrollbar {
+    display: none;
   }
 
-  /* Font size thoda adjust karne ke liye */
-  nav a, .nav-links a {
-    font-size: 16px;
-    margin: 5px 0;
+  /* 2. Collections ko cut hone se bachana aur Swipe on karna */
+  .collections-container, .collections, .product-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important; /* Left-Right swipe */
+    padding-bottom: 15px !important;
+    gap: 15px !important;
   }
-
-  /* Collection wali photos ko mobile par theek karne ke liye */
-  .collections-container, .product-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  
+  .collections-container::-webkit-scrollbar {
+    display: none;
   }
 }
