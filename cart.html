@@ -109,7 +109,7 @@
                             <div class="form-group"><label>Pincode</label><input type="number" id="cust-pincode" placeholder="6-digit Pincode" required></div>
                         </div>
                         <div class="form-group"><label>State</label><input type="text" id="cust-state" placeholder="E.g. Gujarat" required></div>
-                        <button class="checkout-btn" id="btn-generate-bill" style="background-color: #007bb6; margin-top: 10px;">Generate Bill & Pay</button>
+                        <button class="checkout-btn" id="btn-generate-bill" style="background-color: #007bb6; margin-top: 10px;">Generate Bill</button>
                     </div>
 
                     <div class="bill-box" id="bill-section">
@@ -117,17 +117,7 @@
                         <div id="bill-content"></div>
                     </div>
 
-                    <div class="payment-box" id="payment-section">
-                        <h3 class="step-title" style="color: #333; margin-bottom: 5px;">Step 2: Secure Payment</h3>
-                        <a href="#" id="upi-link-btn" class="upi-btn">📱 Pay via GPay / PhonePe</a>
-                        <div class="qr-code-box">
-                            <p style="font-size: 13px; color: #555; margin-bottom: 10px; font-weight: bold;">OR Scan QR Code from Phone:</p>
-                            <img id="dynamic-qr-code" src="" alt="UPI QR Code">
-                        </div>
-                        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Payment hone ke baad Order Confirm karein!</p>
-                        <button class="checkout-btn" id="whatsapp-btn" style="background-color: #25d366; color: white; margin-top: 0;">✅ Confirm Order on WhatsApp</button>
-                    </div>
+                <button class="checkout-btn" id="whatsapp-btn">Confirm Order on WhatsApp</button>    
 
                     <div class="success-box" id="success-section">
                         <div class="success-icon">🎉</div>
@@ -265,16 +255,11 @@
             `;
             document.getElementById('bill-content').innerHTML = billHTML;
 
-            let myUpiId = "rutviksolanki6915@oksbi"; 
-            let upiString = `upi://pay?pa=${myUpiId}&pn=MAA%20Patola%20Art&am=${globalTotalAmount}&cu=INR&tn=Website%20Order`;
-            
-            document.getElementById('upi-link-btn').href = upiString;
-            document.getElementById('dynamic-qr-code').src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiString);
-        };
+            }
 
         // FINAL STEP: WHATSAPP BHEJNA AUR THANK YOU DIKHANA
         document.getElementById('whatsapp-btn').onclick = function() {
-            let message = "Hello MAA Patola Art! 🌟%0A%0AMaine Website se order place kiya hai. Details niche hain:%0A%0A*🧾 DIGITAL INVOICE:*%0A------------------------%0A*Name:* " + window.finalCustName + "%0A*Phone:* " + window.finalCustPhone + "%0A*Delivery Address:* " + window.finalCustAddress + "%0A------------------------%0A*📦 ITEMS:*%0A" + globalOrderTextForWhatsapp + "------------------------%0A*💵 TOTAL PAID: ₹" + globalTotalAmount.toLocaleString('en-IN') + "*%0A%0AMaine UPI se payment complete kar di hai. Kripya check karke order confirm karein. 🙏";
+            let message = "Hello MAA Patola Art! 🌟%0A%0AI have placed an order on your website. The details are below:%0A%0A*🧾 DIGITAL INVOICE:*%0A------------------------%0A*Name:* " + window.finalCustName + "%0A*Phone:* " + window.finalCustPhone + "%0A*Delivery Address:* " + window.finalCustAddress + "%0A------------------------%0A*📦 ITEMS:*%0A" + globalOrderTextForWhatsapp + "------------------------%0A*💵 TOTAL : ₹" + globalTotalAmount.toLocaleString('en-IN') + "*%0A%0AThank you for your order! 🙏";
             
             // 1. WhatsApp kholna naye tab mein
             window.open("https://wa.me/919033217894?text=" + message, '_blank');

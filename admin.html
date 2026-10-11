@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MAA Patola - Admin Control</title>
+  <style>
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #f4f6f8; margin: 0; padding: 14px; }
+    .card { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+    h2, h3 { margin-top: 0; color: #7a1c2d; }
+    label { font-size: 13px; font-weight: 600; color: #333; display: block; margin-top: 12px; }
+    input, select, button { width: 100%; padding: 12px; margin-top: 6px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+    button { background: #7a1c2d; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 16px; }
+    .btn-delete { background: #d93025; padding: 6px 12px; font-size: 13px; width: auto; margin-top: 0; border-radius: 6px; }
+    .filter-tabs { display: flex; overflow-x: auto; gap: 8px; margin: 10px 0 15px 0; padding-bottom: 5px; }
+    .tab-btn { width: auto; padding: 8px 12px; font-size: 13px; background: #e0e0e0; color: #333; border-radius: 20px; white-space: nowrap; margin-top: 0; }
+    .tab-btn.active { background: #7a1c2d; color: #fff; }
+    .item-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .item-card img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 12px; }
+    .item-details { flex-grow: 1; }
+    .category-tag { display: inline-block; background: #eee; font-size: 11px; padding: 2px 6px; border-radius: 4px; color: #555; }
+    .loader { display: none; text-align: center; color: #7a1c2d; font-weight: bold; margin: 10px 0; }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+
+  <!-- Login Section -->
+  <div id="loginBox" class="card">
+    <h2>Admin Login</h2>
+    <input type="email" id="email" placeholder="Admin Email ID">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="adminLogin()">Login</button>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="dashBox" class="card" style="display:none;">
+    <h2>Naya Item Add Karo</h2>
+    
+    <label>Product Category Chuno:</label>
+    <select id="pCategory">
+      <option value="double-ikkat">Double Ikat Patola</option>
+      <option value="single-ikkat">Single Ikat Patola</option>
+      <option value="rajkoti">Rajkoti Patola</option>
+      <option value="sarees">All Sarees Collection</option>
+      <option value="dupatta">Dupatta</option>
+      <option value="clutches">Clutches & Accessories</option>
+    </select>
+
+    <label>Title / Design Code:</label>
+    <input type="text" id="pName" placeholder="e.g. Navratna Double Ikat / Red Floral">
+
+    <label>Price (₹):</label>
+    <input type="number" id="pPrice" placeholder="e.g. 25000">
+
+    <label>Photo (Camera ya Gallery se):</label>
+    <input type="file" id="pImage" accept="image/*">
+
+    <div id="loading" class="loader">Uploading... Please wait!</div>
+    <button id="submitBtn" onclick="uploadProduct()">Upload to Website</button>
+
+    <h3 style="margin-top: 30px;">Manage Live Items</h3>
+    
+    <!-- Filter items by category to delete easily -->
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterItems('all', this)">All</button>
+      <button class="tab-btn" onclick="filterItems('double-ikkat', this)">Double Ikat</button>
+      <button class="tab-btn" onclick="filterItems('single-ikkat', this)">Single Ikat</button>
+      <button class="tab-btn" onclick="filterItems('rajkoti', this)">Rajkoti</button>
+      <button class="tab-btn" onclick="filterItems('dupatta', this)">Dupatta</button>
+      <button class="tab-btn" onclick="filterItems('clutches', this)">Clutches</button>
+    </div>
+
+    <div id="itemsList"></div>
+    
+    <button onclick="firebase.auth().signOut()" style="background:#555; margin-top: 25px;">Logout</button>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

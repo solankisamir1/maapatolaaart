@@ -122,27 +122,7 @@
         <p class="copyright-text">&copy; 2026 MAA Patola Art. All Rights Reserved.</p>
     </footer>
     
-    <script>
-        // Shuruat mein cart mein 0 items hain
-        let count = 0;
 
-        // Page ke saare "Add to Cart" buttons ko dhundho
-        let cartButtons = document.querySelectorAll('.add-to-cart');
-
-        // Har button par ek 'click' set karo
-        cartButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                // Jab bhi click ho, count ko 1 bada do
-                count = count + 1;
-                
-                // Naye number ko screen par 'cart-count' ki jagah dikha do
-                document.getElementById('cart-count').innerText = count;
-                
-                // Ek chota sa popup message dikhao (Optional)
-                alert("Youre Iteam Selected! 🛍️");
-            });
-        });
-    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -195,7 +175,7 @@
                 cartCountElement.innerText = cart.length;
             }
             
-            alert(itemName + " aapke cart mein add ho gayi hai! 🛒");
+            alert(itemName + " Selected! 🛒");
         }
     </script>
 
