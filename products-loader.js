@@ -1,4 +1,4 @@
-// Firebase SDK Check & Init
+// Firebase SDK Initialization
 const firebaseConfig = {
   apiKey: "AIzaSyBxE0BSxvbp_IM0faWL3HRZimExi59I7x4",
   authDomain: "maa-patola-art.firebaseapp.com",
@@ -13,11 +13,11 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-// Current page ke hisab se category auto-detect karna
+// Current page category auto-detect
 function getCategoryFromURL() {
   const path = window.location.pathname.toLowerCase();
-  if (path.includes("double-ikkat")) return "double-ikkat";
-  if (path.includes("single-ikkat")) return "single-ikkat";
+  if (path.includes("double-ikkat") || path.includes("double")) return "double-ikkat";
+  if (path.includes("single-ikkat") || path.includes("single")) return "single-ikkat";
   if (path.includes("rajkoti")) return "rajkoti";
   if (path.includes("dupatta")) return "dupatta";
   if (path.includes("clutches")) return "clutches";
@@ -27,10 +27,13 @@ function getCategoryFromURL() {
 document.addEventListener("DOMContentLoaded", () => {
   const category = getCategoryFromURL();
   const gridContainer = document.querySelector(".product-grid") || 
-                        document.querySelector(".collection-grid") || 
-                        document.querySelector(".gallery");
+                        document.querySelector(".featured-products") ||
+                        document.querySelector(".collection-grid");
 
-  if (!gridContainer) return;
+  if (!gridContainer) {
+    console.error("Product grid container nahi mila!");
+    return;
+  }
 
   let query = db.collection("products").orderBy("createdAt", "desc");
   if (category !== "all") {
@@ -41,18 +44,27 @@ document.addEventListener("DOMContentLoaded", () => {
     snapshot.docChanges().forEach(change => {
       if (change.type === "added") {
         const item = change.doc.data();
+        
+        // Exact styling jo aapke double-ikkat.html me hai
         const card = document.createElement("div");
-        card.className = "product-card";
+        card.className = "product-card visible"; // 'visible' class taaki animation me chhipe nahi
+        card.style.opacity = "1";
+        card.style.transform = "none";
+
+        const formattedPrice = Number(item.price).toLocaleString("en-IN");
+
         card.innerHTML = `
           <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
-          <div class="product-info">
-            <h3>${item.title}</h3>
-            <p class="price">₹${item.price}</p>
-            <a href="https://wa.me/91XXXXXXXXXX?text=I%20am%20interested%20in%20${encodeURIComponent(item.title)}" class="btn-inquire">Inquire on WhatsApp</a>
-          </div>
+          <h3>${item.title}</h3>
+          <span class="new-price">₹${formattedPrice}</span>
+          <button class="add-to-cart" onclick="addToCart('${item.title.replace(/'/g, "\\'")}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
         `;
+        
+        // Grid ke top (shuruat) me card add karega
         gridContainer.prepend(card);
       }
     });
+  }, error => {
+    console.error("Firestore loading error:", error);
   });
 });

@@ -75,7 +75,7 @@ async function uploadProduct() {
       throw new Error(data.error ? data.error.message : "Image upload failed");
     }
 
-    const imageUrl = data.data.url;
+    const imageUrl = data.data.display_url || data.data.url;
 
     // 2. Firestore Database me product save
     await db.collection("products").add({
