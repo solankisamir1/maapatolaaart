@@ -13,8 +13,7 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-// URL se current page ki category detect karna
-function getCurrentPageKey() {
+function getCurrentCategory() {
   const path = window.location.pathname.toLowerCase();
   if (path.includes("double")) return "double";
   if (path.includes("single")) return "single";
@@ -25,66 +24,70 @@ function getCurrentPageKey() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const pageKey = getCurrentPageKey();
+  const targetCategory = getCurrentCategory();
   const gridContainer = document.querySelector(".product-grid") || 
-                        document.querySelector(".featured-products") || 
-                        document.querySelector(".collection-grid");
+                        document.querySelector(".collection-grid") ||
+                        document.querySelector(".featured-products");
 
   if (!gridContainer) {
-    console.warn("Product container grid nahi mili!");
+    console.error("Grid container nahi mila!");
     return;
   }
 
-  // Sirf createdAt par order karo (No composite index error!)
-  db.collection("products")
-    .orderBy("createdAt", "desc")
-    .onSnapshot(snapshot => {
-      // Pehle dynamically dale hue purane cards hatao (agar refresh ho)
-      document.querySelectorAll(".dynamic-product-card").forEach(el => el.remove());
+  // Sirf collection suno bina kisi complex query ke (zero index requirement)
+  db.collection("products").onSnapshot(snapshot => {
+    document.querySelectorAll(".dynamic-product-card").forEach(el => el.remove());
 
-      snapshot.docs.forEach(doc => {
-        const item = doc.data();
-        const cat = (item.category || "").toLowerCase();
+    const docs = [];
+    snapshot.forEach(doc => docs.push(doc.data()));
 
-        // Check karo ki product is page ki category se match hota hai ya nahi
-        let isMatch = false;
-
-        if (pageKey === "all") {
-          isMatch = true; // Home page par sab dikhega
-        } else if (pageKey === "double" && cat.includes("double")) {
-          isMatch = true;
-        } else if (pageKey === "single" && cat.includes("single")) {
-          isMatch = true;
-        } else if (pageKey === "rajkoti" && cat.includes("rajkoti")) {
-          isMatch = true;
-        } else if (pageKey === "dupatta" && cat.includes("dupatta")) {
-          isMatch = true;
-        } else if (pageKey === "clutch" && cat.includes("clutch")) {
-          isMatch = true;
-        }
-
-        if (isMatch) {
-          const card = document.createElement("div");
-          card.className = "product-card visible dynamic-product-card";
-          card.style.opacity = "1";
-          card.style.transform = "none";
-          card.style.display = "block";
-
-          const formattedPrice = Number(item.price || 0).toLocaleString("en-IN");
-          const safeTitle = (item.title || "Patola").replace(/'/g, "\\'");
-
-          card.innerHTML = `
-            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
-            <h3>${item.title}</h3>
-            <span class="new-price">₹${formattedPrice}</span>
-            <button class="add-to-cart" onclick="addToCart('${safeTitle}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
-          `;
-
-          // Grid me sabse upar add karega
-          gridContainer.prepend(card);
-        }
-      });
-    }, err => {
-      console.error("Firestore read error:", err);
+    // Client-side sorting (newest first)
+    docs.sort((a, b) => {
+      const timeA = a.createdAt ? (a.createdAt.seconds || 0) : 0;
+      const timeB = b.createdAt ? (b.createdAt.seconds || 0) : 0;
+      return timeB - timeA;
     });
+
+    // Client-side filtering
+    docs.forEach(item => {
+      const cat = (item.category || "").toLowerCase();
+      let shouldShow = false;
+
+      if (targetCategory === "all") {
+        shouldShow = true;
+      } else if (targetCategory === "double" && cat.includes("double")) {
+        shouldShow = true;
+      } else if (targetCategory === "single" && cat.includes("single")) {
+        shouldShow = true;
+      } else if (targetCategory === "rajkoti" && cat.includes("rajkoti")) {
+        shouldShow = true;
+      } else if (targetCategory === "dupatta" && cat.includes("dupatta")) {
+        shouldShow = true;
+      } else if (targetCategory === "clutch" && cat.includes("clutch")) {
+        shouldShow = true;
+      }
+
+      if (shouldShow) {
+        const card = document.createElement("div");
+        card.className = "product-card visible dynamic-product-card";
+        card.style.opacity = "1";
+        card.style.transform = "none";
+        card.style.display = "block";
+
+        const formattedPrice = Number(item.price || 0).toLocaleString("en-IN");
+        const safeTitle = (item.title || "Patola").replace(/'/g, "\\'");
+
+        card.innerHTML = `
+          <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+          <h3>${item.title}</h3>
+          <span class="new-price">₹${formattedPrice}</span>
+          <button class="add-to-cart" onclick="addToCart('${safeTitle}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
+        `;
+
+        gridContainer.prepend(card);
+      }
+    });
+  }, err => {
+    console.error("Firestore loading error:", err);
+  });
 });
