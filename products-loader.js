@@ -13,70 +13,78 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-// Current page category auto-detect
-function getCategoryFromURL() {
+// URL se current page ki category detect karna
+function getCurrentPageKey() {
   const path = window.location.pathname.toLowerCase();
-  if (path.includes("double-ikkat") || path.includes("double")) return "double-ikkat";
-  if (path.includes("single-ikkat") || path.includes("single")) return "single-ikkat";
+  if (path.includes("double")) return "double";
+  if (path.includes("single")) return "single";
   if (path.includes("rajkoti")) return "rajkoti";
   if (path.includes("dupatta")) return "dupatta";
-  if (path.includes("clutches")) return "clutches";
+  if (path.includes("clutch")) return "clutch";
   return "all";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const category = getCategoryFromURL();
+  const pageKey = getCurrentPageKey();
   const gridContainer = document.querySelector(".product-grid") || 
-                        document.querySelector(".featured-products") ||
+                        document.querySelector(".featured-products") || 
                         document.querySelector(".collection-grid");
 
   if (!gridContainer) {
-    console.error("Product grid container nahi mila!");
+    console.warn("Product container grid nahi mili!");
     return;
   }
 
+  // Sirf createdAt par order karo (No composite index error!)
+  db.collection("products")
+    .orderBy("createdAt", "desc")
+    .onSnapshot(snapshot => {
+      // Pehle dynamically dale hue purane cards hatao (agar refresh ho)
+      document.querySelectorAll(".dynamic-product-card").forEach(el => el.remove());
 
- let query = db.collection("products").orderBy("createdAt", "desc");
+      snapshot.docs.forEach(doc => {
+        const item = doc.data();
+        const cat = (item.category || "").toLowerCase();
 
-  if (category !== "all") {
-    // Har category ke matching options ka group
-    const categoryMap = {
-      "double-ikkat": ["double-ikkat", "Double Ikat Patola", "Double Ikat", "Double Ikkat"],
-      "single-ikkat": ["single-ikkat", "Single Ikat Patola", "Single Ikat", "Single Ikkat"],
-      "rajkoti": ["rajkoti", "Rajkoti Patola", "Rajkoti", "rajkoti-patola"],
-      "dupatta": ["dupatta", "Dupatta", "patola-dupatta"],
-      "clutches": ["clutches", "Clutches", "clutch", "Clutch"]
-    };
+        // Check karo ki product is page ki category se match hota hai ya nahi
+        let isMatch = false;
 
-    const targetCategories = categoryMap[category] || [category];
-    query = query.where("category", "in", targetCategories);
-  }
+        if (pageKey === "all") {
+          isMatch = true; // Home page par sab dikhega
+        } else if (pageKey === "double" && cat.includes("double")) {
+          isMatch = true;
+        } else if (pageKey === "single" && cat.includes("single")) {
+          isMatch = true;
+        } else if (pageKey === "rajkoti" && cat.includes("rajkoti")) {
+          isMatch = true;
+        } else if (pageKey === "dupatta" && cat.includes("dupatta")) {
+          isMatch = true;
+        } else if (pageKey === "clutch" && cat.includes("clutch")) {
+          isMatch = true;
+        }
 
-  query.onSnapshot(snapshot => {
-    snapshot.docChanges().forEach(change => {
-      if (change.type === "added") {
-        const item = change.doc.data();
-        
-        // Exact styling jo aapke double-ikkat.html me hai
-        const card = document.createElement("div");
-        card.className = "product-card visible"; // 'visible' class taaki animation me chhipe nahi
-        card.style.opacity = "1";
-        card.style.transform = "none";
+        if (isMatch) {
+          const card = document.createElement("div");
+          card.className = "product-card visible dynamic-product-card";
+          card.style.opacity = "1";
+          card.style.transform = "none";
+          card.style.display = "block";
 
-        const formattedPrice = Number(item.price).toLocaleString("en-IN");
+          const formattedPrice = Number(item.price || 0).toLocaleString("en-IN");
+          const safeTitle = (item.title || "Patola").replace(/'/g, "\\'");
 
-        card.innerHTML = `
-          <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
-          <h3>${item.title}</h3>
-          <span class="new-price">₹${formattedPrice}</span>
-          <button class="add-to-cart" onclick="addToCart('${item.title.replace(/'/g, "\\'")}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
-        `;
-        
-        // Grid ke top (shuruat) me card add karega
-        gridContainer.prepend(card);
-      }
+          card.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+            <h3>${item.title}</h3>
+            <span class="new-price">₹${formattedPrice}</span>
+            <button class="add-to-cart" onclick="addToCart('${safeTitle}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
+          `;
+
+          // Grid me sabse upar add karega
+          gridContainer.prepend(card);
+        }
+      });
+    }, err => {
+      console.error("Firestore read error:", err);
     });
-  }, error => {
-    console.error("Firestore loading error:", error);
-  });
 });
