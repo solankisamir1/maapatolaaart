@@ -35,9 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  let query = db.collection("products").orderBy("createdAt", "desc");
+
+ let query = db.collection("products").orderBy("createdAt", "desc");
+
   if (category !== "all") {
-    query = query.where("category", "==", category);
+    // Har category ke matching options ka group
+    const categoryMap = {
+      "double-ikkat": ["double-ikkat", "Double Ikat Patola", "Double Ikat", "Double Ikkat"],
+      "single-ikkat": ["single-ikkat", "Single Ikat Patola", "Single Ikat", "Single Ikkat"],
+      "rajkoti": ["rajkoti", "Rajkoti Patola", "Rajkoti", "rajkoti-patola"],
+      "dupatta": ["dupatta", "Dupatta", "patola-dupatta"],
+      "clutches": ["clutches", "Clutches", "clutch", "Clutch"]
+    };
+
+    const targetCategories = categoryMap[category] || [category];
+    query = query.where("category", "in", targetCategories);
   }
 
   query.onSnapshot(snapshot => {
