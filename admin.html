@@ -58,6 +58,13 @@
 
     <label>Price (₹):</label>
     <input type="number" id="pPrice" placeholder="e.g. 25000">
+    <label>Original / Old Price (₹) (Optional - Discount ke liye):</label>
+<input type="number" id="pOldPrice" placeholder="e.g. 30000">
+
+<label style="display: flex; align-items: center; gap: 8px; margin: 10px 0; cursor: pointer;">
+  <input type="checkbox" id="pInStock" checked style="width: auto;">
+  <span>In Stock (Tick hataoge toh Out of Stock mark hoga)</span>
+</label>
 
     <label>Photo (Camera ya Gallery se):</label>
     <input type="file" id="pImage" accept="image/*">
@@ -81,6 +88,41 @@
     
     <button onclick="firebase.auth().signOut()" style="background:#555; margin-top: 25px;">Logout</button>
   </div>
+  <!-- Edit Product Popup Modal -->
+<div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+  <div style="background: #fff; width: 100%; max-width: 450px; padding: 25px; border-radius: 10px; max-height: 90vh; overflow-y: auto; color: #333;">
+    <h3 style="margin-bottom: 15px;">Edit Product</h3>
+    <input type="hidden" id="editDocId">
+    
+    <label style="display: block; margin-top: 10px;">Title / Design Code</label>
+    <input type="text" id="editTitle" style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+    
+    <label style="display: block; margin-top: 10px;">Selling Price (₹)</label>
+    <input type="number" id="editPrice" style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+    
+    <label style="display: block; margin-top: 10px;">Original / Old Price (₹)</label>
+    <input type="number" id="editOldPrice" style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+    
+    <label style="display: block; margin-top: 10px;">Category</label>
+    <select id="editCategory" style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+      <option value="Double Ikat Patola">Double Ikat Patola</option>
+      <option value="Single Ikat Patola">Single Ikat Patola</option>
+      <option value="Rajkoti Patola">Rajkoti Patola</option>
+      <option value="Dupatta">Dupatta</option>
+      <option value="Clutches">Clutches</option>
+    </select>
+
+    <label style="display: flex; align-items: center; gap: 8px; margin: 15px 0; cursor: pointer;">
+      <input type="checkbox" id="editInStock" style="width: auto;">
+      <span>In Stock (Uncheck karne par 'Out of Stock' dikhega)</span>
+    </label>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button onclick="saveProductEdit()" style="flex: 1; padding: 10px; background: #28a745; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Save Changes</button>
+      <button onclick="closeEditModal()" style="flex: 1; padding: 10px; background: #6c757d; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
 
   <script src="admin.js"></script>
 </body>

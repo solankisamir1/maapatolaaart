@@ -81,6 +81,8 @@ async function uploadProduct() {
     await db.collection("products").add({
       title: name,
       price: Number(price),
+      oldPrice: document.getElementById("pOldPrice")?.value ? Number(document.getElementById("pOldPrice").value) : null,
+      inStock: document.getElementById("pInStock")?.checked ?? true,
       category: category,
       imageUrl: imageUrl,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -89,6 +91,8 @@ async function uploadProduct() {
     alert(`Item successfully ${category} category me add ho gaya!`);
     document.getElementById("pName").value = "";
     document.getElementById("pPrice").value = "";
+    document.getElementById("pOldPrice").value = "";
+    document.getElementById("pInStock").checked = true;
     fileInput.value = "";
   } catch (err) {
     alert("Error: " + err.message);
@@ -131,15 +135,25 @@ function renderList() {
 
   filtered.forEach(item => {
     listContainer.innerHTML += `
-      <div class="item-card">
-        <img src="${item.imageUrl}" alt="${item.title}">
-        <div class="item-details">
-          <strong>${item.title}</strong><br>
-          <span style="color:#7a1c2d; font-weight:bold;">₹${item.price}</span><br>
-          <span class="category-tag">${item.category}</span>
-        </div>
-        <button class="btn-delete" onclick="deleteItem('${item.id}')">Delete</button>
-      </div>
+      <div class="item-card" style="display:flex; align-items:center; gap:12px; margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:10px;">
+              <img src="${item.imageUrl}" alt="${item.title}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+              <div class="item-details" style="flex:1;">
+                <strong>${item.title}</strong><br>
+                <span style="color:#7a1c2d; font-weight:bold;">₹${Number(item.price).toLocaleString("en-IN")}</span>
+                ${item.oldPrice ? `<del style="color:#888; font-size:12px; margin-left:6px;">₹${Number(item.oldPrice).toLocaleString("en-IN")}</del>` : ""}<br>
+                <span class="category-tag">${item.category}</span>
+                <span style="display:inline-block; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:bold; background:${item.inStock !== false ? '#d4edda; color:#155724;' : '#f8d7da; color:#721c24;'}">
+                  ${item.inStock !== false ? 'In Stock' : 'Out of Stock'}
+                </span>
+              </div>
+              <div style="display:flex; gap:6px;">
+                <button type="button" onclick="openEditModal('${item.id}')" style="background:#007bff; color:#fff; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">Edit</button>
+                <button type="button" onclick="toggleStock('${item.id}', ${item.inStock !== false})" style="background:${item.inStock !== false ? '#ffc107' : '#28a745'}; color:${item.inStock !== false ? '#000' : '#fff'}; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
+                  ${item.inStock !== false ? 'Make Out' : 'Make In'}
+                </button>
+                <button type="button" class="btn-delete" onclick="deleteItem('${item.id}')" style="background:#dc3545; color:#fff; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">Delete</button>
+              </div>
+            </div>
     `;
   });
 }
@@ -155,3 +169,64 @@ async function deleteItem(id) {
     }
   }
 }
+
+// --- EDIT MODAL & STOCK TOGGLE LOGIC ---
+
+window.openEditModal = function(id) {
+  const item = allProductsList.find(p => p.id === id);
+  if (!item) {
+    alert("Item nahi mila!");
+    return;
+  }
+
+  document.getElementById("editDocId").value = id;
+  document.getElementById("editTitle").value = item.title || "";
+  document.getElementById("editPrice").value = item.price || "";
+  document.getElementById("editOldPrice").value = item.oldPrice || "";
+  document.getElementById("editCategory").value = item.category || "Double Ikat Patola";
+  document.getElementById("editInStock").checked = item.inStock !== false;
+
+  document.getElementById("editModal").style.display = "flex";
+};
+
+window.closeEditModal = function() {
+  document.getElementById("editModal").style.display = "none";
+};
+
+window.saveProductEdit = async function() {
+  const id = document.getElementById("editDocId").value;
+  const title = document.getElementById("editTitle").value.trim();
+  const price = Number(document.getElementById("editPrice").value);
+  const oldPriceVal = document.getElementById("editOldPrice").value;
+  const category = document.getElementById("editCategory").value;
+  const inStock = document.getElementById("editInStock").checked;
+
+  if (!title || !price) {
+    alert("Title aur Price zaroori hain!");
+    return;
+  }
+
+  try {
+    await db.collection("products").doc(id).update({
+      title: title,
+      price: price,
+      oldPrice: oldPriceVal ? Number(oldPriceVal) : null,
+      category: category,
+      inStock: inStock
+    });
+    alert("Product update ho gaya!");
+    closeEditModal();
+  } catch (err) {
+    alert("Update fail hua: " + err.message);
+  }
+};
+
+window.toggleStock = async function(id, currentStatus) {
+  try {
+    await db.collection("products").doc(id).update({
+      inStock: !currentStatus
+    });
+  } catch (err) {
+    alert("Stock status badalne me error: " + err.message);
+  }
+};

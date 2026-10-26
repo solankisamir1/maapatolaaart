@@ -75,13 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.display = "block";
 
         const formattedPrice = Number(item.price || 0).toLocaleString("en-IN");
+        const formattedOldPrice = item.oldPrice ? Number(item.oldPrice).toLocaleString("en-IN") : null;
         const safeTitle = (item.title || "Patola").replace(/'/g, "\\'");
+        const isOutOfStock = item.inStock === false;
 
         card.innerHTML = `
-          <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+          <div style="position: relative; overflow: hidden;">
+            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy" style="${isOutOfStock ? 'filter: grayscale(80%); opacity: 0.7;' : ''}">
+            ${isOutOfStock ? '<span style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: #fff; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 3px; letter-spacing: 1px;">OUT OF STOCK</span>' : ''}
+          </div>
           <h3>${item.title}</h3>
-          <span class="new-price">₹${formattedPrice}</span>
-          <button class="add-to-cart" onclick="addToCart('${safeTitle}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>
+          <div class="price-container" style="margin: 6px 0;">
+            ${formattedOldPrice ? `<span class="old-price" style="text-decoration: line-through; color: #888; margin-right: 8px;">₹${formattedOldPrice}</span>` : ""}
+            <span class="new-price" style="color: #7a1c2d; font-weight: bold;">₹${formattedPrice}</span>
+          </div>
+          ${isOutOfStock 
+            ? `<button class="add-to-cart" disabled style="background: #ccc; color: #666; cursor: not-allowed; border: none;">Out of Stock</button>`
+            : `<button class="add-to-cart" onclick="addToCart('${safeTitle}', ${item.price}, '${item.imageUrl}')">Add to Cart</button>`
+          }
         `;
 
         gridContainer.prepend(card);
